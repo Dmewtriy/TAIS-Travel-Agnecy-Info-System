@@ -16,7 +16,7 @@ namespace TAIS__Tourist_Agency_Info_System_
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new MainForm());
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace TAIS__Tourist_Agency_Info_System_
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Обязательная переменная конструктора.
