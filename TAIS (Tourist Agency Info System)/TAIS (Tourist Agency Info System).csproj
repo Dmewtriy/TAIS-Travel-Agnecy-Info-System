@@ -10,10 +10,11 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Data\" />
+    <Folder Include="Data\DataFiles\" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.8" />
   </ItemGroup>
 </Project>
