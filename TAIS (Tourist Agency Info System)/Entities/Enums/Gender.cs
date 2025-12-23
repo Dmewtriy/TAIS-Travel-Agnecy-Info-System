@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TAIS__Tourist_Agency_Info_System_.Entities.Enums
+{
+    public enum Gender
+    {
+        /// <summary>
+        /// Мужской
+        /// </summary>
+        M,
+        /// <summary>
+        /// Женский
+        /// </summary>
+        W
+    }
+
+    public class GenderExtensions
+    {
+        public static string GetStringByEnum(Gender value)
+        {
+            switch (value)
+            {
+                case Gender.M: return "Мужской";
+                case Gender.W: return "Женский";
+            }
+            return "";
+        }
+        public static string GetShortStringByEnum(Gender value)
+        {
+            switch (value)
+            {
+                case Gender.M: return "М";
+                case Gender.W: return "Ж";
+            }
+            return "";
+        }
+
+        public static Gender GetEnumByString(string value)
+        {
+            switch (value.ToLower())
+            {
+                case "мужской": return Gender.M;
+                case "женский": return Gender.W;
+                case "м": return Gender.M;
+                case "ж": return Gender.W;
+            }
+            throw new ArgumentException("Такого состояния не существует");
+        }
+    }
+}

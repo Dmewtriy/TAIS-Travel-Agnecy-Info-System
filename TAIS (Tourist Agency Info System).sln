@@ -5,13 +5,6 @@ VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAIS (Tourist Agency Info System)", "TAIS (Tourist Agency Info System)\TAIS (Tourist Agency Info System).csproj", "{546A2FAF-0025-4ADA-8CBA-D40708831A59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clients", "Clients\Clients.csproj", "{34718759-C03D-4EE5-8E51-5F29DE89A0D1}"
-	ProjectSection(ProjectDependencies) = postProject
-		{A2CD6DF9-11E7-4EE8-87CB-76C7F10739AD} = {A2CD6DF9-11E7-4EE8-87CB-76C7F10739AD}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Person", "Person\Person.csproj", "{A2CD6DF9-11E7-4EE8-87CB-76C7F10739AD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,14 +15,6 @@ Global
 		{546A2FAF-0025-4ADA-8CBA-D40708831A59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{546A2FAF-0025-4ADA-8CBA-D40708831A59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{546A2FAF-0025-4ADA-8CBA-D40708831A59}.Release|Any CPU.Build.0 = Release|Any CPU
-		{34718759-C03D-4EE5-8E51-5F29DE89A0D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{34718759-C03D-4EE5-8E51-5F29DE89A0D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{34718759-C03D-4EE5-8E51-5F29DE89A0D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{34718759-C03D-4EE5-8E51-5F29DE89A0D1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2CD6DF9-11E7-4EE8-87CB-76C7F10739AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2CD6DF9-11E7-4EE8-87CB-76C7F10739AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2CD6DF9-11E7-4EE8-87CB-76C7F10739AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2CD6DF9-11E7-4EE8-87CB-76C7F10739AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

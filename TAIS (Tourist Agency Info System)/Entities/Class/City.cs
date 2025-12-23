@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TAIS__Tourist_Agency_Info_System_.Entities.Interfaces;
+
+namespace TAIS__Tourist_Agency_Info_System_.Entities.Class
+{
+    public class City : BaseEntity
+    {
+        private string _name;
+        private int _countryId;
+
+        [Required(ErrorMessage = "Название города обязательно")]
+        [MinLength(1, ErrorMessage = "Название не должно быть пусто")]
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Название не должно быть пусто", nameof(value));
+                _name = value;
+            }
+        }
+
+        [Range(1, int.MaxValue, ErrorMessage = "CountryId должен быть положительным")]
+        public int CountryId
+        {
+            get => _countryId;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentOutOfRangeException(nameof(value), "CountryId должен быть положительным");
+                _countryId = value;
+            }
+        }
+        public virtual Country Country { get; set; }
+    }
+}

@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{546A2FAF-0025-4ADA-8CBA-D40708831A59}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>TAIS__Tourist_Agency_Info_System_</RootNamespace>
     <AssemblyName>TAIS %28Tourist Agency Info System%29</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
@@ -32,8 +32,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.5.0.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,6 +53,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Class\AircraftType.cs" />
+    <Compile Include="Entities\Class\Carrier.cs" />
+    <Compile Include="Entities\Class\Child.cs" />
+    <Compile Include="Entities\Class\City.cs" />
+    <Compile Include="Entities\Class\Client.cs" />
+    <Compile Include="Entities\Class\Country.cs" />
+    <Compile Include="Entities\Class\Employee.cs" />
+    <Compile Include="Entities\Class\Flight.cs" />
+    <Compile Include="Entities\Class\Hotel.cs" />
+    <Compile Include="Entities\Class\HREvent.cs" />
+    <Compile Include="Entities\Class\Order.cs" />
+    <Compile Include="Entities\Class\Position.cs" />
+    <Compile Include="Entities\Class\Route.cs" />
+    <Compile Include="Entities\Class\RoutePoint.cs" />
+    <Compile Include="Entities\Class\Street.cs" />
+    <Compile Include="Entities\Class\Ticket.cs" />
+    <Compile Include="Entities\Class\Trip.cs" />
+    <Compile Include="Entities\Class\Voyage.cs" />
+    <Compile Include="Entities\Enums\Gender.cs" />
+    <Compile Include="Entities\Enums\TypeEvent.cs" />
+    <Compile Include="Entities\Interfaces\BaseEntity.cs" />
+    <Compile Include="Entities\Interfaces\IEntity.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,6 +92,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -75,6 +105,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
