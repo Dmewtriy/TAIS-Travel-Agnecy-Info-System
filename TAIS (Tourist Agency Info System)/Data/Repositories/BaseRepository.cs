@@ -348,7 +348,7 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
             command.ExecuteNonQuery();
 
             command.CommandText = @"
-                CREATE TABLE IF NOT EXISTS Order (
+                CREATE TABLE IF NOT EXISTS Orders (
                     -- Первичный ключ
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
 
