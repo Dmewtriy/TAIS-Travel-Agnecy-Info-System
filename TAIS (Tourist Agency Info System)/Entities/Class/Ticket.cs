@@ -10,6 +10,16 @@ namespace TAIS__Tourist_Agency_Info_System_.Entities.Class
 {
     public class Ticket : BaseEntity
     {
+        public Ticket(int id, string ticketClass, string seatNumber, decimal? price, int clientId, int flightId)
+        {
+            Id = id;
+            TicketClass = ticketClass;
+            SeatNumber = seatNumber;
+            Price = price;
+            ClientId = clientId;
+            FlightId = flightId;
+        }
+
         private string _ticketClass;
         private string _seatNumber;
         private decimal? _price;

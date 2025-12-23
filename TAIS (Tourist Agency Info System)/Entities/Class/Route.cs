@@ -10,6 +10,15 @@ namespace TAIS__Tourist_Agency_Info_System_.Entities.Class
 {
     public class Route : BaseEntity
     {
+        public Route(int id, string name, int? duration, int countryId, int createdByEmployeeId)
+        {
+            Id = id;
+            Name = name;
+            Duration = duration;
+            CountryId = countryId;
+            CreatedByEmployeeId = createdByEmployeeId;
+        }
+
         private string _name;
         private int _countryId;
         private int _createdByEmployeeId;

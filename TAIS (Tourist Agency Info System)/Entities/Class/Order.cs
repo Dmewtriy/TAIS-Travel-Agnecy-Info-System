@@ -10,6 +10,15 @@ namespace TAIS__Tourist_Agency_Info_System_.Entities.Class
 {
     public class Order : BaseEntity
     {
+        public Order(int id, DateTime orderDate, TimeSpan orderTime, int clientId, int tripId)
+        {
+            Id = id;
+            OrderDate = orderDate;
+            OrderTime = orderTime;
+            ClientId = clientId;
+            TripId = tripId;
+        }
+
         private int _clientId;
         private int _tripId;
 

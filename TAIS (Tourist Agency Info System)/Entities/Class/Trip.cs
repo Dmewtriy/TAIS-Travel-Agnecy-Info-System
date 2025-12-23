@@ -10,6 +10,20 @@ namespace TAIS__Tourist_Agency_Info_System_.Entities.Class
 {
     public class Trip : BaseEntity
     {
+        public Trip(int id, DateTime departureDate, DateTime arrivalDate, decimal? tripCost, decimal? penalty,
+                    int routeId, int representativeEmployeeId, int outboundFlightId, int? returnFlightId)
+        {
+            Id = id;
+            DepartureDate = departureDate;
+            ArrivalDate = arrivalDate;
+            TripCost = tripCost;
+            Penalty = penalty;
+            RouteId = routeId;
+            RepresentativeEmployeeId = representativeEmployeeId;
+            OutboundFlightId = outboundFlightId;
+            ReturnFlightId = returnFlightId;
+        }
+
         private decimal? _tripCost;
         private decimal? _penalty;
         private int _routeId;

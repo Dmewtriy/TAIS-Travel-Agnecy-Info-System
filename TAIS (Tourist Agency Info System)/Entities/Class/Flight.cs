@@ -10,6 +10,14 @@ namespace TAIS__Tourist_Agency_Info_System_.Entities.Class
 {
     public class Flight : BaseEntity
     {
+        public Flight(int id, DateTime departureDate, TimeSpan departureTime, int voyageId)
+        {
+            Id = id;
+            DepartureDate = departureDate;
+            DepartureTime = departureTime;
+            VoyageId = voyageId;
+        }
+
         private int _voyageId;
 
         [Required(ErrorMessage = "Дата вылета обязательна")]

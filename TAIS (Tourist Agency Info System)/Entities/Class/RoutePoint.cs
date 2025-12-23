@@ -10,6 +10,19 @@ namespace TAIS__Tourist_Agency_Info_System_.Entities.Class
 {
     public class RoutePoint : BaseEntity
     {
+        public RoutePoint(int id, int? sequenceNumber, int? stayDuration, string excursionProgram,
+                          int routeId, int cityId, int? hotelId, int createdByEmployeeId)
+        {
+            Id = id;
+            SequenceNumber = sequenceNumber;
+            StayDuration = stayDuration;
+            ExcursionProgram = excursionProgram;
+            RouteId = routeId;
+            CityId = cityId;
+            HotelId = hotelId;
+            CreatedByEmployeeId = createdByEmployeeId;
+        }
+
         private string _excursionProgram;
         private int _routeId;
         private int _cityId;

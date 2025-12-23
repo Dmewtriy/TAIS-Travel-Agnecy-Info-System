@@ -11,6 +11,19 @@ namespace TAIS__Tourist_Agency_Info_System_.Entities.Class
 {
     public class Employee : BaseEntity
     {
+        public Employee(int id, string firstName, string middleName, string lastName, DateTime birthDate, Gender gender,
+                        decimal? workExperience, int streetId)
+        {
+            Id = id;
+            FirstName = firstName;
+            MiddleName = middleName;
+            LastName = lastName;
+            BirthDate = birthDate;
+            Gender = gender;
+            WorkExperience = workExperience;
+            StreetId = streetId;
+        }
+
         private string _firstName;
         private string _middleName;
         private string _lastName;

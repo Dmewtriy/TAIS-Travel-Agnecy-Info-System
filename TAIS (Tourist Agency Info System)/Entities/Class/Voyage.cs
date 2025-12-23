@@ -10,6 +10,13 @@ namespace TAIS__Tourist_Agency_Info_System_.Entities.Class
 {
     public class Voyage : BaseEntity
     {
+        public Voyage(int id, int carrierId, int aircraftTypeId)
+        {
+            Id = id;
+            CarrierId = carrierId;
+            AircraftTypeId = aircraftTypeId;
+        }
+
         private int _carrierId;
         private int _aircraftTypeId;
 

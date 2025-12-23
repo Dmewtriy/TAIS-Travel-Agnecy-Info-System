@@ -10,6 +10,12 @@ namespace TAIS__Tourist_Agency_Info_System_.Entities.Class
 {
     public class Carrier : BaseEntity
     {
+        public Carrier(int id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+
         private string _name;
 
         [Required(ErrorMessage = "Название перевозчика обязательно")]

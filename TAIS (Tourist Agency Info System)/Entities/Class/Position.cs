@@ -10,6 +10,13 @@ namespace TAIS__Tourist_Agency_Info_System_.Entities.Class
 {
     public class Position : BaseEntity
     {
+        public Position(int id, string title, string okpdtrCode)
+        {
+            Id = id;
+            Title = title;
+            OkpdtrCode = okpdtrCode;
+        }
+
         private string _title;
         private string _okpdtrCode;
 

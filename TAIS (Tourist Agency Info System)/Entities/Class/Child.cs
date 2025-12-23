@@ -11,6 +11,17 @@ namespace TAIS__Tourist_Agency_Info_System_.Entities.Class
 {
     public class Child : BaseEntity
     {
+        public Child(int id, string firstName, string middleName, string lastName, DateTime birthDate, Gender gender, int clientId)
+        {
+            Id = id;
+            FirstName = firstName;
+            MiddleName = middleName;
+            LastName = lastName;
+            BirthDate = birthDate;
+            Gender = gender;
+            ClientId = clientId;
+        }
+
         private string _firstName;
         private string _middleName;
         private string _lastName;

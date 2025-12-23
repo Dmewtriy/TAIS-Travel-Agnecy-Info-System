@@ -11,6 +11,22 @@ namespace TAIS__Tourist_Agency_Info_System_.Entities.Class
 {
     public class Client : BaseEntity
     {
+        public Client(int id, string firstName, string middleName, string lastName, DateTime birthDate, Gender gender,
+                      string passportSeries, string passportNumber, DateTime passportIssueDate, string passportIssuedBy, string phone)
+        {
+            Id = id;
+            FirstName = firstName;
+            MiddleName = middleName;
+            LastName = lastName;
+            BirthDate = birthDate;
+            Gender = gender;
+            PassportSeries = passportSeries;
+            PassportNumber = passportNumber;
+            PassportIssueDate = passportIssueDate;
+            PassportIssuedBy = passportIssuedBy;
+            Phone = phone;
+        }
+
         private string _firstName;
         private string _middleName;
         private string _lastName;

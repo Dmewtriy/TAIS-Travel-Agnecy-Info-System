@@ -11,6 +11,21 @@ namespace TAIS__Tourist_Agency_Info_System_.Entities.Class
 {
     public class HREvent : BaseEntity
     {
+        public HREvent(int id, DateTime eventDate, int workPlaceStreetId, TypeEvent eventType, string profession,
+                       string department, TypeEvent documentType, string reason, int positionId, int employeeId)
+        {
+            Id = id;
+            EventDate = eventDate;
+            WorkPlaceStreetId = workPlaceStreetId;
+            EventType = eventType;
+            Profession = profession;
+            Department = department;
+            DocumentType = documentType;
+            Reason = reason;
+            PositionId = positionId;
+            EmployeeId = employeeId;
+        }
+
         private int _workPlaceStreetId;
         private string _profession;
         private string _department;

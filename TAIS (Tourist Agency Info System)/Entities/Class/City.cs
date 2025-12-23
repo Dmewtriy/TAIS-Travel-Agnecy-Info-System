@@ -10,6 +10,13 @@ namespace TAIS__Tourist_Agency_Info_System_.Entities.Class
 {
     public class City : BaseEntity
     {
+        public City(int id, string name, int countryId)
+        {
+            Id = id;
+            Name = name;
+            CountryId = countryId;
+        }
+
         private string _name;
         private int _countryId;
 
