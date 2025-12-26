@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TAIS (Tourist Agency Info System)\TAIS (Tourist Agency Info System).csproj" />
+    <ProjectReference Include="..\Authorization\AuthorizationLibrary.csproj" />
   </ItemGroup>
 
 </Project>

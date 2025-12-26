@@ -1,6 +1,8 @@
-﻿using LoginFormDll;
+using LoginFormDll;
 using System;
 using System.Windows.Forms;
+using HelpModule;
+using TAIS__Tourist_Agency_Info_System_.Data.Repositories;
 
 namespace TAIS__Tourist_Agency_Info_System_
 {
@@ -8,13 +10,12 @@ namespace TAIS__Tourist_Agency_Info_System_
     {
         static void run(bool fl = false, AuthorizationLibrary.User? user = null)
         {
+            InitRepos initRepos = new InitRepos();
             if (fl == false)
             {
-                LoginForm loginForm = new LoginForm();
+                ContentForm loginForm = new ContentForm(initRepos);
                 if (loginForm.ShowDialog() == DialogResult.OK)
                 {
-                    var users = loginForm.Users;
-                    var username = loginForm.AuthenticatedUsername;
 
                     /*MainForm mainForm = new MainForm(users[username]);
                     var dialog = mainForm.ShowDialog();

@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Authorization\AuthorizationLibrary.csproj" />
+    <ProjectReference Include="..\HelpModule\HelpModule.csproj" />
+    <ProjectReference Include="..\LoginFormDll\LoginFormDll.csproj" />
+    <ProjectReference Include="..\MenuLibrary\MenuLibrary.csproj" />
+    <ProjectReference Include="..\OtherModule\OtherModule.csproj" />
+    <ProjectReference Include="..\SqlCommandModule\SqlCommandModule.csproj" />
+    <ProjectReference Include="..\TAIS (Tourist Agency Info System)\TAIS (Tourist Agency Info System).csproj" />
+  </ItemGroup>
+
+</Project>
