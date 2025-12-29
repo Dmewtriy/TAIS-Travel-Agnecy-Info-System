@@ -10,12 +10,19 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Authorization\AuthorizationLibrary.csproj" />
+    <ProjectReference Include="..\ClientModule\ClientModule.csproj" />
+    <ProjectReference Include="..\EmployeeModule\EmployeeModule.csproj" />
+    <ProjectReference Include="..\FlightModule\FlightModule.csproj" />
+    <ProjectReference Include="..\GeographyModule\GuideModule.csproj" />
     <ProjectReference Include="..\HelpModule\HelpModule.csproj" />
     <ProjectReference Include="..\LoginFormDll\LoginFormDll.csproj" />
     <ProjectReference Include="..\MenuLibrary\MenuLibrary.csproj" />
+    <ProjectReference Include="..\OrderModule\OrderModule.csproj" />
     <ProjectReference Include="..\OtherModule\OtherModule.csproj" />
     <ProjectReference Include="..\SqlCommandModule\SqlCommandModule.csproj" />
     <ProjectReference Include="..\TAIS (Tourist Agency Info System)\TAIS (Tourist Agency Info System).csproj" />
+    <ProjectReference Include="..\TicketModule\TicketModule.csproj" />
+    <ProjectReference Include="..\TripModule\TripModule.csproj" />
   </ItemGroup>
 
 </Project>

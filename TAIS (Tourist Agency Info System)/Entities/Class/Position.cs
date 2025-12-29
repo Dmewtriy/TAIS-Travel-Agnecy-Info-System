@@ -38,12 +38,7 @@ namespace TAIS__Tourist_Agency_Info_System_.Entities.Class
         public string OkpdtrCode
         {
             get => _okpdtrCode;
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentException("Код не должен быть пусто", nameof(value));
-                _okpdtrCode = value;
-            }
+            set => _okpdtrCode = string.IsNullOrWhiteSpace(value) ? string.Empty : value.Trim();
         }
     }
 }

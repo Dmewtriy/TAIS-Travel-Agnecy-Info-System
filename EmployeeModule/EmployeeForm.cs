@@ -12,6 +12,7 @@ namespace EmployeeModule
         private List<Employee> allEmployees;
         private List<Position> allPositions;
         private List<HREvent> allHrEvents;
+        private List<Street> allStreets;
         private List<HREvent> hrEventsForSelectedEmployee;
         private List<Employee> filteredEmployees;
         private Employee selectedEmployee;
@@ -27,7 +28,7 @@ namespace EmployeeModule
 
             // Важно: отключем автосоздание колонок до загрузки данных
             employeesDataGridView.AutoGenerateColumns = false;
-            employmentHistoryDataGridView.AutoGenerateColumns = false;
+            dataGridView1.AutoGenerateColumns = false;
 
             InitializeForm();
             LoadData();
@@ -44,7 +45,7 @@ namespace EmployeeModule
 
             // Настройка событий
             employeesDataGridView.SelectionChanged += EmployeesDataGridView_SelectionChanged;
-            employmentHistoryDataGridView.CellFormatting += EmploymentHistoryDataGridView_CellFormatting;
+            dataGridView1.CellFormatting += EmploymentHistoryDataGridView_CellFormatting;
 
             applyFilterButton.Click += ApplyFilterButton_Click;
             resetFilterButton.Click += ResetFilterButton_Click;
@@ -61,7 +62,7 @@ namespace EmployeeModule
 
             // Дополнительные события
             positionComboBox.SelectedIndexChanged += positionComboBox_SelectedIndexChanged;
-            employmentHistoryDataGridView.SelectionChanged += employmentHistoryDataGridView_SelectionChanged;
+            dataGridView1.SelectionChanged += employmentHistoryDataGridView_SelectionChanged;
 
             // Обработчик изменения типа мероприятия для контроля доступности поля причины увольнения
             eventTypeComboBox.SelectedIndexChanged += EventTypeComboBox_SelectedIndexChanged;
@@ -81,6 +82,8 @@ namespace EmployeeModule
             allEmployees = dataBase.employeeRep.GetAll();
             allPositions = dataBase.positionRep.GetAll();
             allHrEvents = dataBase.hrEventRep.GetAll();
+            // Загрузка улиц (мест работы) для автозаполнения
+            try { allStreets = dataBase.streetRep.GetAll(); } catch { allStreets = new List<Street>(); }
 
             // Заполнение фильтра должностей
             positionFilterComboBox.Items.Clear();
@@ -91,6 +94,11 @@ namespace EmployeeModule
             {
                 positionFilterComboBox.Items.Add(position.Title);
                 positionComboBox.Items.Add(position.Title);
+            }
+
+            foreach (var street in allStreets)
+            {
+                workplaceCombo.Items.Add(street.Name);
             }
 
             positionFilterComboBox.SelectedIndex = 0;
@@ -142,9 +150,11 @@ namespace EmployeeModule
 
         private void UpdateEmploymentHistoryData()
         {
+            InitRepos initRepos = new InitRepos();
+            allHrEvents = initRepos.hrEventRep.GetAll();
             // Очищаем существующие строки
-            employmentHistoryDataGridView.Rows.Clear();
-            
+            dataGridView1.Rows.Clear();
+
             // Загружаем все кадровые мероприятия для выбранного сотрудника по его Id
             hrEventsForSelectedEmployee = (selectedEmployee != null && allHrEvents != null)
                 ? allHrEvents.Where(ev => ev.EmployeeId == selectedEmployee.Id).ToList()
@@ -159,15 +169,15 @@ namespace EmployeeModule
 
                 foreach (var history in sortedHistories)
                 {
-                    int rowIndex = employmentHistoryDataGridView.Rows.Add();
-                    DataGridViewRow row = employmentHistoryDataGridView.Rows[rowIndex];
+                    int rowIndex = dataGridView1.Rows.Add();
+                    DataGridViewRow row = dataGridView1.Rows[rowIndex];
 
-                    row.Cells["colHistoryEventDate"].Value = history.EventDate.ToString("dd.MM.yyyy");
-                    row.Cells["colHistoryPosition"].Value = history.Position?.Title ?? "Не указано";
-                    row.Cells["colHistoryWorkplace"].Value = history.OrgName;
-                    row.Cells["colHistoryEventType"].Value = history.EventType.GetStringByEnum();
-                    row.Cells["colHistoryDocumentType"].Value = history.DocumentType;
-                    row.Cells["colHistoryDismissalReason"].Value = history.Reason ?? "";
+                    row.Cells["date"].Value = history.EventDate.ToShortDateString();
+                    row.Cells["position"].Value = history.Position?.Title ?? "Не указано";
+                    row.Cells["workplace"].Value = history.WorkPlace?.Name ?? history.OrgName ?? string.Empty;
+                    row.Cells["eventType"].Value = history.EventType.GetStringByEnum();
+                    row.Cells["documentType"].Value = history.DocumentType ?? string.Empty;
+                    row.Cells["reason"].Value = history.Reason ?? string.Empty;
 
                     // Сохраняем объект EmploymentHistory в Tag строки
                     row.Tag = history;
@@ -179,7 +189,7 @@ namespace EmployeeModule
         {
             if (positionComboBox.Items.Count > 0)
                 positionComboBox.SelectedIndex = 0;
-            workplaceTextBox.Clear();
+            workplaceCombo.SelectedIndex = 0;
             eventDatePicker.Value = DateTime.Today;
             documentNumberTextBox.Clear();
             documentTypeTextBox.Clear();
@@ -191,7 +201,7 @@ namespace EmployeeModule
         private void UpdateButtonsState()
         {
             bool hasSelectedEmployee = selectedEmployee != null;
-            bool hasSelectedHistory = employmentHistoryDataGridView.SelectedRows.Count > 0;
+            bool hasSelectedHistory = dataGridView1.SelectedRows.Count > 0;
             bool hasSelectedRow = employeesDataGridView.SelectedRows.Count > 0;
 
             selectEmployeeButton.Enabled = hasSelectedRow;
@@ -411,6 +421,10 @@ namespace EmployeeModule
                 string selectedPositionName = positionComboBox.SelectedItem?.ToString();
                 Position selectedPost = allPositions.FirstOrDefault(p => p.Title == selectedPositionName);
 
+                // Получение выбранной улицы
+                string selectedWorkplace = workplaceCombo.SelectedItem?.ToString();
+                Street selectedStreet = allStreets.FirstOrDefault(p => p.Name == selectedWorkplace);
+
                 if (selectedPost == null)
                 {
                     MessageBox.Show("Выберите должность", "Ошибка",
@@ -429,15 +443,6 @@ namespace EmployeeModule
 
                 // Конвертация строки в enum TypeEvent
                 TypeEvent typeEvent = TypeEventExtensions.GetEnumByString(selectedEventType);
-
-                // Валидация полей
-                if (string.IsNullOrWhiteSpace(workplaceTextBox.Text))
-                {
-                    MessageBox.Show("Введите место работы", "Ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    workplaceTextBox.Focus();
-                    return;
-                }
 
                 if (string.IsNullOrWhiteSpace(documentNumberTextBox.Text))
                 {
@@ -464,22 +469,31 @@ namespace EmployeeModule
                     return;
                 }
 
+                InitRepos initRepos = new InitRepos();
+
                 // Создание новой записи в трудовой книжке
                 var employmentHistory = new HREvent(
-                    selectedPost,
-                    workplaceTextBox.Text,
-                    typeEvent,
+                    0,
                     eventDatePicker.Value,
-                    documentNumberTextBox.Text,
+                    selectedStreet.Id,
+                    typeEvent,
+                    selectedPost.Title,
+                    selectedPost.Title,
                     documentTypeTextBox.Text,
-                    dismissalReasonTextBox.Text
+                    dismissalReasonTextBox.Text,
+                    selectedPost.Id,
+                    selectedEmployee.Id,
+                    selectedStreet.Name
                 );
 
-                // Добавление записи сотруднику
-                selectedEmployee._employmentHistories.Add(employmentHistory);
+                employmentHistory.WorkPlace = selectedStreet;
+                employmentHistory.Position = selectedPost;
+                employmentHistory.Employee = selectedEmployee;
+
 
                 // Сохранение изменений в базе данных
                 dataBase.employeeRep.Save(selectedEmployee);
+                dataBase.hrEventRep.Save(employmentHistory);
 
                 // Обновление отображения
                 UpdateEmploymentHistoryData();
@@ -509,10 +523,10 @@ namespace EmployeeModule
                 return;
             }
 
-            if (employmentHistoryDataGridView.SelectedRows.Count > 0)
+            if (dataGridView1.SelectedRows.Count > 0)
             {
-                var selectedRow = employmentHistoryDataGridView.SelectedRows[0];
-                if (selectedRow.Tag is EmploymentHistory history)
+                var selectedRow = dataGridView1.SelectedRows[0];
+                if (selectedRow.Tag is HREvent history)
                 {
                     var result = MessageBox.Show("Вы уверены, что хотите удалить эту запись из трудовой книжки?",
                         "Подтверждение удаления", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -521,8 +535,7 @@ namespace EmployeeModule
                     {
                         try
                         {
-                            selectedEmployee._employmentHistories.Remove(history);
-
+                            dataBase.hrEventRep.Delete(history.Id);
                             // Сохранение изменений в базе данных
                             dataBase.employeeRep.Save(selectedEmployee);
 
@@ -550,40 +563,30 @@ namespace EmployeeModule
         // Форматирование ячеек таблиц
         private void EmploymentHistoryDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.RowIndex >= 0 && e.RowIndex < employmentHistoryDataGridView.Rows.Count)
+            if (e.RowIndex >= 0 && e.RowIndex < dataGridView1.Rows.Count)
             {
-                var row = employmentHistoryDataGridView.Rows[e.RowIndex];
-                if (row.Tag is EmploymentHistory history)
+                var row = dataGridView1.Rows[e.RowIndex];
+                if (row.Tag is HREvent history)
                 {
-                    switch (employmentHistoryDataGridView.Columns[e.ColumnIndex].Name)
+                    switch (dataGridView1.Columns[e.ColumnIndex].Name)
                     {
-                        case "colHistoryDocumentDate":
-                            e.Value = history.DateDocument.ToString("dd.MM.yyyy");
-                            e.FormattingApplied = true;
+                        case "date":
+                            e.Value = history.EventDate.ToShortDateString();
                             break;
-                        case "colHistoryEventDate":
-                            e.Value = history.DateEvent.ToString("dd.MM.yyyy");
-                            e.FormattingApplied = true;
+                        case "position":
+                            e.Value = history.Position?.Title ?? "Не указано";
                             break;
-                        case "colHistoryPosition":
-                            e.Value = history.Post?.NamePost ?? "Не указано";
-                            e.FormattingApplied = true;
+                        case "workplace":
+                            e.Value = history.WorkPlace.Name;
                             break;
-                        case "colHistoryWorkplace":
-                            e.Value = history.NameOrganization;
-                            e.FormattingApplied = true;
+                        case "eventType":
+                            e.Value = history.EventType.GetStringByEnum();
                             break;
-                        case "colHistoryEventType":
-                            e.Value = history.TypeEventStr;
-                            e.FormattingApplied = true;
+                        case "documentType":
+                            e.Value = history.DocumentType;
                             break;
-                        case "colHistoryDocumentType":
-                            e.Value = history.TypeDocument;
-                            e.FormattingApplied = true;
-                            break;
-                        case "colHistoryDismissalReason":
-                            e.Value = history.Reasons ?? "";
-                            e.FormattingApplied = true;
+                        case "reason":
+                            e.Value = history.Reason ?? "";
                             break;
                     }
                 }

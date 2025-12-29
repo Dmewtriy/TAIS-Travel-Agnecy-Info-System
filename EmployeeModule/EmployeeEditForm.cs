@@ -1,4 +1,5 @@
-﻿using TAIS__Tourist_Agency_Info_System_.Entities.Class;
+﻿using TAIS__Tourist_Agency_Info_System_.Data.Repositories;
+using TAIS__Tourist_Agency_Info_System_.Entities.Class;
 using TAIS__Tourist_Agency_Info_System_.Entities.Enums;
 
 namespace EmployeeModule
@@ -12,12 +13,15 @@ namespace EmployeeModule
         private List<Position> allPositions;
         private Employee existingEmployee;
         private bool isEditMode;
+        private List<Street> allStreets;
+        private InitRepos initRepos = new InitRepos();
 
         // Конструктор для создания нового сотрудника
         public EmployeeEditForm(List<Position> allPositions)
         {
             InitializeComponent();
             this.allPositions = allPositions ?? new List<Position>();
+            this.allStreets = allStreets ?? new List<Street>();
             this.isEditMode = false;
 
             InitializeForm();
@@ -29,6 +33,7 @@ namespace EmployeeModule
         {
             InitializeComponent();
             this.allPositions = allPositions ?? new List<Position>();
+            this.allStreets = allStreets ?? new List<Street>();
             this.isEditMode = true;
             this.existingEmployee = existingEmployee;
             ResultEmployee = existingEmployee;
@@ -50,6 +55,14 @@ namespace EmployeeModule
 
         private void FillComboBoxes()
         {
+            allStreets = initRepos.streetRep.GetAll();
+            streetCombo.Items.Clear();
+            foreach (var street in allStreets)
+            {
+                streetCombo.Items.Add(street.Name);
+            }
+            if (streetCombo.Items.Count > 0)
+                streetCombo.SelectedIndex = 0;
             // Заполнение списка должностей
             positionComboBox.Items.Clear();
             foreach (var Position in allPositions)
@@ -86,12 +99,6 @@ namespace EmployeeModule
 
                 // Дата рождения
                 birthdayPicker.Value = employee.BirthDate;
-
-                // Адрес
-                if (employee.Street != null)
-                {
-                    streetTextBox.Text = employee.Street.Name;
-                }
 
                 // Рабочие данные
                 timeWorkNumeric.Value = (decimal)employee.WorkExperience;
@@ -137,14 +144,6 @@ namespace EmployeeModule
                     return;
                 }
 
-                if (string.IsNullOrWhiteSpace(streetTextBox.Text))
-                {
-                    MessageBox.Show("Введите улицу", "Ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    streetTextBox.Focus();
-                    return;
-                }
-
                 if (positionComboBox.SelectedItem == null)
                 {
                     MessageBox.Show("Выберите должность", "Ошибка",
@@ -169,11 +168,9 @@ namespace EmployeeModule
                 if (genderComboBox.SelectedIndex == 1)
                     gender = Gender.W;
 
-                // Создание адреса
-                Street address = new Street(
-                    0,
-                    streetTextBox.Text.Trim()
-                );
+                // Получение выбранной улицы
+                string selectedStreet = streetCombo.SelectedItem.ToString();
+                Street selectedWorkplace = allStreets.FirstOrDefault(p => p.Name == selectedStreet);
 
                 if (isEditMode && existingEmployee != null)
                 {
@@ -183,9 +180,11 @@ namespace EmployeeModule
                     existingEmployee.MiddleName = patronymicTextBox.Text?.Trim();
                     existingEmployee.Gender = gender;
                     existingEmployee.BirthDate = birthdayPicker.Value;
-                    existingEmployee.Street = address;
+                    existingEmployee.Street = selectedWorkplace;
+                    existingEmployee.StreetId = selectedWorkplace.Id;
                     existingEmployee.WorkExperience = (int)timeWorkNumeric.Value;
                     existingEmployee.Position = selectedPosition;
+                    existingEmployee.PositionId = selectedPosition.Id;
 
                     ResultEmployee = existingEmployee;
                 }
@@ -200,11 +199,11 @@ namespace EmployeeModule
                         birthDate: birthdayPicker.Value,
                         gender: gender,
                         workExperience: (decimal)timeWorkNumeric.Value,
-                        streetId: address.Id,
+                        streetId: selectedWorkplace.Id,
                         positionId: selectedPosition.Id
                     );
                 }
-                ResultEmployee.Street = address;
+                ResultEmployee.Street = selectedWorkplace;
                 ResultEmployee.Position = selectedPosition;
 
                 this.DialogResult = DialogResult.OK;

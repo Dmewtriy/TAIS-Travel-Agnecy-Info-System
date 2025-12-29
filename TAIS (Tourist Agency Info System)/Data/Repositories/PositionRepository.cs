@@ -20,6 +20,11 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
             return list;
         }
 
+        protected List<Position> Converter(List<Position> data)
+        {
+            return data;
+        }
+
         public override Position GetById(int Id)
         {
             using var connection = GetConnection();
@@ -74,6 +79,27 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
                 long newId = (long)insertCmd.ExecuteScalar();
                 return (int)newId;
             }
+        }
+
+        public new List<Position> GetAll()
+        {
+            var data = new List<Position>();
+
+            using var connection = GetConnection();
+            using var command = connection.CreateCommand();
+
+            command.CommandText = $"SELECT Id, Title, OkpdtrCode FROM {TableName};";
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                string value = reader.IsDBNull(1) ? null : reader.GetString(1);
+                string okpdtr = reader.IsDBNull(2) ? null : reader.GetString(2);
+                data.Add(new Position(id, value, okpdtr));
+            }
+
+            return Converter(data);
         }
     }
 }

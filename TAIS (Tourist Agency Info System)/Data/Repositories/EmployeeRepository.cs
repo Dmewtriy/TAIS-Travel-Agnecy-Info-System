@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using TAIS__Tourist_Agency_Info_System_.Entities.Class;
 using TAIS__Tourist_Agency_Info_System_.Entities.Enums;
 
@@ -9,10 +10,12 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
     {
         private const string TableName = "Employee";
         private readonly StreetRepository _streetRepository;
+        private readonly PositionRepository _positionRepository;
 
-        public EmployeeRepository(StreetRepository streetRepository)
+        public EmployeeRepository(StreetRepository streetRepository, PositionRepository positionRepository)
         {
             _streetRepository = streetRepository;
+            _positionRepository = positionRepository;
         }
 
         public List<Employee> GetAll()
@@ -20,7 +23,7 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
             var list = new List<Employee>();
             using var connection = GetConnection();
             using var command = connection.CreateCommand();
-            command.CommandText = $"SELECT Id, FirstName, MiddleName, LastName, BirthDate, Gender, WorkExperience, StreetId FROM {TableName};";
+            command.CommandText = $"SELECT Id, FirstName, MiddleName, LastName, BirthDate, Gender, WorkExperience, StreetId, PositionId FROM {TableName};";
 
             using var reader = command.ExecuteReader();
             while (reader.Read())
@@ -33,6 +36,7 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
                 string genderStr = reader.IsDBNull(5) ? null : reader.GetString(5);
                 string workExpStr = reader.IsDBNull(6) ? null : reader.GetString(6);
                 int streetId = reader.GetInt32(7);
+                int positionId = reader.GetInt32(8);
 
                 DateTime birthDate = DateTime.Parse(birthDateStr);
 
@@ -53,11 +57,15 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
                     gender = Gender.M;
 
                 decimal? workExp = null;
-                if (!string.IsNullOrEmpty(workExpStr) && decimal.TryParse(workExpStr, out var we)) workExp = we;
+                if (!string.IsNullOrEmpty(workExpStr) && decimal.TryParse(workExpStr,
+                    NumberStyles.Number,
+                    CultureInfo.InvariantCulture,
+                    out var we)) workExp = we;
 
-                var emp = new Employee(id, firstName, middleName, lastName, birthDate, gender, workExp, streetId)
+                var emp = new Employee(id, firstName, middleName, lastName, birthDate, gender, workExp, streetId, positionId)
                 {
-                    Street = _streetRepository.GetById(streetId)
+                    Street = _streetRepository.GetById(streetId),
+                    Position = _positionRepository.GetById(positionId)
                 };
                 list.Add(emp);
             }
@@ -68,7 +76,7 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
         {
             using var connection = GetConnection();
             using var command = connection.CreateCommand();
-            command.CommandText = $"SELECT Id, FirstName, MiddleName, LastName, BirthDate, Gender, WorkExperience, StreetId FROM {TableName} WHERE Id = @Id;";
+            command.CommandText = $"SELECT Id, FirstName, MiddleName, LastName, BirthDate, Gender, WorkExperience, StreetId, PositionId FROM {TableName} WHERE Id = @Id;";
             command.Parameters.AddWithValue("@Id", id);
 
             using var reader = command.ExecuteReader();
@@ -83,6 +91,7 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
             string genderStr = reader.IsDBNull(5) ? null : reader.GetString(5);
             string workExpStr = reader.IsDBNull(6) ? null : reader.GetString(6);
             int streetId = reader.GetInt32(7);
+            int positionId = reader.GetInt32(8);
 
             DateTime birthDate = DateTime.Parse(birthDateStr);
 
@@ -105,9 +114,10 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
             decimal? workExp = null;
             if (!string.IsNullOrEmpty(workExpStr) && decimal.TryParse(workExpStr, out var we)) workExp = we;
 
-            var emp = new Employee(idDb, firstName, middleName, lastName, birthDate, gender, workExp, streetId)
+            var emp = new Employee(idDb, firstName, middleName, lastName, birthDate, gender, workExp, streetId, positionId)
             {
-                Street = _streetRepository.GetById(streetId)
+                Street = _streetRepository.GetById(streetId),
+                Position = _positionRepository.GetById(positionId)
             };
             return emp;
         }
@@ -121,21 +131,22 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
 
             if (model.Id != 0)
             {
-                command.CommandText = $@"UPDATE {TableName} SET FirstName = @FirstName, MiddleName = @MiddleName, LastName = @LastName, BirthDate = @BirthDate, Gender = @Gender, WorkExperience = @WorkExperience, StreetId = @StreetId WHERE Id = @Id;";
+                command.CommandText = $@"UPDATE {TableName} SET FirstName = @FirstName, MiddleName = @MiddleName, LastName = @LastName, BirthDate = @BirthDate, Gender = @Gender, WorkExperience = @WorkExperience, StreetId = @StreetId, PositionId = @PositionId WHERE Id = @Id;";
                 command.Parameters.AddWithValue("@Id", model.Id);
             }
             else
             {
-                command.CommandText = $@"INSERT INTO {TableName} (FirstName, MiddleName, LastName, BirthDate, Gender, WorkExperience, StreetId) VALUES (@FirstName, @MiddleName, @LastName, @BirthDate, @Gender, @WorkExperience, @StreetId); SELECT last_insert_rowid();";
+                command.CommandText = $@"INSERT INTO {TableName} (FirstName, MiddleName, LastName, BirthDate, Gender, WorkExperience, StreetId, PositionId) VALUES (@FirstName, @MiddleName, @LastName, @BirthDate, @Gender, @WorkExperience, @StreetId, @PositionId); SELECT last_insert_rowid();";
             }
 
             command.Parameters.AddWithValue("@FirstName", model.FirstName ?? string.Empty);
             command.Parameters.AddWithValue("@MiddleName", model.MiddleName ?? string.Empty);
             command.Parameters.AddWithValue("@LastName", model.LastName ?? string.Empty);
             command.Parameters.AddWithValue("@BirthDate", birthDateStr);
-            command.Parameters.AddWithValue("@Gender", model.Gender.ToString());
+            command.Parameters.AddWithValue("@Gender", GenderExtensions.GetShortStringByEnum(model.Gender));
             command.Parameters.AddWithValue("@WorkExperience", model.WorkExperience.HasValue ? (object)model.WorkExperience.Value : DBNull.Value);
             command.Parameters.AddWithValue("@StreetId", model.StreetId);
+            command.Parameters.AddWithValue("@PositionId", model.PositionId);
 
             if (model.Id != 0)
             {

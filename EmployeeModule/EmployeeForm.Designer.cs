@@ -24,7 +24,6 @@
         private Label positionLabel;
         private ComboBox positionComboBox;
         private Label workplaceLabel;
-        private TextBox workplaceTextBox;
         private Label eventDateLabel;
         private DateTimePicker eventDatePicker;
         private Label documentNumberLabel;
@@ -35,7 +34,6 @@
         private TextBox dismissalReasonTextBox;
         private Button deleteEmploymentButton;
         private Button addEmploymentButton;
-        private DataGridView employmentHistoryDataGridView;
         private Button exitButton;
         private Label employmentHistoryLabel;
         private Label eventTypeLabel;
@@ -58,6 +56,7 @@
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EmployeeForm));
             mainSplitContainer = new SplitContainer();
             topPanel = new Panel();
             filterPanel = new Panel();
@@ -79,12 +78,18 @@
             editEmployeeButton = new Button();
             addEmployeeButton = new Button();
             bottomPanel = new Panel();
+            dataGridView1 = new DataGridView();
+            date = new DataGridViewTextBoxColumn();
+            position = new DataGridViewTextBoxColumn();
+            workplace = new DataGridViewTextBoxColumn();
+            eventType = new DataGridViewTextBoxColumn();
+            documentType = new DataGridViewTextBoxColumn();
+            reason = new DataGridViewTextBoxColumn();
             employmentDetailsPanel = new Panel();
             employmentFormTableLayout = new TableLayoutPanel();
             positionLabel = new Label();
             positionComboBox = new ComboBox();
             workplaceLabel = new Label();
-            workplaceTextBox = new TextBox();
             eventDateLabel = new Label();
             eventDatePicker = new DateTimePicker();
             documentNumberLabel = new Label();
@@ -95,17 +100,11 @@
             eventTypeComboBox = new ComboBox();
             dismissalReasonLabel = new Label();
             dismissalReasonTextBox = new TextBox();
+            workplaceCombo = new ComboBox();
             deleteEmploymentButton = new Button();
             addEmploymentButton = new Button();
             employmentHistoryLabel = new Label();
-            employmentHistoryDataGridView = new DataGridView();
             exitButton = new Button();
-            colHistoryEventDate = new DataGridViewTextBoxColumn();
-            colHistoryPosition = new DataGridViewTextBoxColumn();
-            colHistoryWorkplace = new DataGridViewTextBoxColumn();
-            colHistoryEventType = new DataGridViewTextBoxColumn();
-            colHistoryDocumentType = new DataGridViewTextBoxColumn();
-            colHistoryDismissalReason = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)mainSplitContainer).BeginInit();
             mainSplitContainer.Panel1.SuspendLayout();
             mainSplitContainer.Panel2.SuspendLayout();
@@ -115,9 +114,9 @@
             filterTableLayout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)employeesDataGridView).BeginInit();
             bottomPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             employmentDetailsPanel.SuspendLayout();
             employmentFormTableLayout.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)employmentHistoryDataGridView).BeginInit();
             SuspendLayout();
             // 
             // mainSplitContainer
@@ -358,9 +357,10 @@
             // 
             // bottomPanel
             // 
+            bottomPanel.AutoSize = true;
+            bottomPanel.Controls.Add(dataGridView1);
             bottomPanel.Controls.Add(employmentDetailsPanel);
             bottomPanel.Controls.Add(employmentHistoryLabel);
-            bottomPanel.Controls.Add(employmentHistoryDataGridView);
             bottomPanel.Controls.Add(exitButton);
             bottomPanel.Dock = DockStyle.Fill;
             bottomPanel.Location = new Point(0, 0);
@@ -368,6 +368,61 @@
             bottomPanel.Padding = new Padding(10);
             bottomPanel.Size = new Size(1200, 345);
             bottomPanel.TabIndex = 0;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { date, position, workplace, eventType, documentType, reason });
+            dataGridView1.Location = new Point(13, 162);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.ReadOnly = true;
+            dataGridView1.Size = new Size(1174, 150);
+            dataGridView1.TabIndex = 4;
+            // 
+            // date
+            // 
+            date.HeaderText = "Дата мероприятия";
+            date.Name = "date";
+            date.ReadOnly = true;
+            date.Width = 123;
+            // 
+            // position
+            // 
+            position.HeaderText = "Должность";
+            position.Name = "position";
+            position.ReadOnly = true;
+            position.Width = 94;
+            // 
+            // workplace
+            // 
+            workplace.HeaderText = "Место работы";
+            workplace.Name = "workplace";
+            workplace.ReadOnly = true;
+            workplace.Width = 102;
+            // 
+            // eventType
+            // 
+            eventType.HeaderText = "Вид мероприятия";
+            eventType.Name = "eventType";
+            eventType.ReadOnly = true;
+            eventType.Width = 118;
+            // 
+            // documentType
+            // 
+            documentType.HeaderText = "Вид документа";
+            documentType.Name = "documentType";
+            documentType.ReadOnly = true;
+            documentType.Width = 104;
+            // 
+            // reason
+            // 
+            reason.HeaderText = "Причина увольнения";
+            reason.Name = "reason";
+            reason.ReadOnly = true;
+            reason.Width = 137;
             // 
             // employmentDetailsPanel
             // 
@@ -392,7 +447,6 @@
             employmentFormTableLayout.Controls.Add(positionLabel, 0, 0);
             employmentFormTableLayout.Controls.Add(positionComboBox, 0, 1);
             employmentFormTableLayout.Controls.Add(workplaceLabel, 1, 0);
-            employmentFormTableLayout.Controls.Add(workplaceTextBox, 1, 1);
             employmentFormTableLayout.Controls.Add(eventDateLabel, 2, 0);
             employmentFormTableLayout.Controls.Add(eventDatePicker, 2, 1);
             employmentFormTableLayout.Controls.Add(documentNumberLabel, 3, 0);
@@ -403,6 +457,7 @@
             employmentFormTableLayout.Controls.Add(eventTypeComboBox, 0, 3);
             employmentFormTableLayout.Controls.Add(dismissalReasonLabel, 1, 2);
             employmentFormTableLayout.Controls.Add(dismissalReasonTextBox, 1, 3);
+            employmentFormTableLayout.Controls.Add(workplaceCombo, 1, 1);
             employmentFormTableLayout.Dock = DockStyle.Left;
             employmentFormTableLayout.Location = new Point(0, 0);
             employmentFormTableLayout.Name = "employmentFormTableLayout";
@@ -443,14 +498,6 @@
             workplaceLabel.Size = new Size(89, 15);
             workplaceLabel.TabIndex = 2;
             workplaceLabel.Text = "Место работы:";
-            // 
-            // workplaceTextBox
-            // 
-            workplaceTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            workplaceTextBox.Location = new Point(203, 28);
-            workplaceTextBox.Name = "workplaceTextBox";
-            workplaceTextBox.Size = new Size(193, 23);
-            workplaceTextBox.TabIndex = 3;
             // 
             // eventDateLabel
             // 
@@ -545,6 +592,14 @@
             dismissalReasonTextBox.Size = new Size(193, 23);
             dismissalReasonTextBox.TabIndex = 13;
             // 
+            // workplaceCombo
+            // 
+            workplaceCombo.FormattingEnabled = true;
+            workplaceCombo.Location = new Point(203, 28);
+            workplaceCombo.Name = "workplaceCombo";
+            workplaceCombo.Size = new Size(193, 23);
+            workplaceCombo.TabIndex = 16;
+            // 
             // deleteEmploymentButton
             // 
             deleteEmploymentButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -583,22 +638,6 @@
             employmentHistoryLabel.TabIndex = 2;
             employmentHistoryLabel.Text = "Трудовая книжка:";
             // 
-            // employmentHistoryDataGridView
-            // 
-            employmentHistoryDataGridView.AllowUserToAddRows = false;
-            employmentHistoryDataGridView.AllowUserToDeleteRows = false;
-            employmentHistoryDataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            employmentHistoryDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            employmentHistoryDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            employmentHistoryDataGridView.Columns.AddRange(new DataGridViewColumn[] { colHistoryEventDate, colHistoryPosition, colHistoryWorkplace, colHistoryEventType, colHistoryDocumentType, colHistoryDismissalReason });
-            employmentHistoryDataGridView.Location = new Point(10, 165);
-            employmentHistoryDataGridView.Name = "employmentHistoryDataGridView";
-            employmentHistoryDataGridView.ReadOnly = true;
-            employmentHistoryDataGridView.RowHeadersVisible = false;
-            employmentHistoryDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            employmentHistoryDataGridView.Size = new Size(1180, 140);
-            employmentHistoryDataGridView.TabIndex = 1;
-            // 
             // exitButton
             // 
             exitButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
@@ -613,54 +652,20 @@
             exitButton.Text = "Выйти";
             exitButton.UseVisualStyleBackColor = true;
             // 
-            // colHistoryEventDate
-            // 
-            colHistoryEventDate.HeaderText = "Дата мероприятия";
-            colHistoryEventDate.Name = "colHistoryEventDate";
-            colHistoryEventDate.ReadOnly = true;
-            // 
-            // colHistoryPosition
-            // 
-            colHistoryPosition.HeaderText = "Должность";
-            colHistoryPosition.Name = "colHistoryPosition";
-            colHistoryPosition.ReadOnly = true;
-            // 
-            // colHistoryWorkplace
-            // 
-            colHistoryWorkplace.HeaderText = "Место работы";
-            colHistoryWorkplace.Name = "colHistoryWorkplace";
-            colHistoryWorkplace.ReadOnly = true;
-            // 
-            // colHistoryEventType
-            // 
-            colHistoryEventType.HeaderText = "Вид мероприятия";
-            colHistoryEventType.Name = "colHistoryEventType";
-            colHistoryEventType.ReadOnly = true;
-            // 
-            // colHistoryDocumentType
-            // 
-            colHistoryDocumentType.HeaderText = "Вид документа";
-            colHistoryDocumentType.Name = "colHistoryDocumentType";
-            colHistoryDocumentType.ReadOnly = true;
-            // 
-            // colHistoryDismissalReason
-            // 
-            colHistoryDismissalReason.HeaderText = "Причина увольнения";
-            colHistoryDismissalReason.Name = "colHistoryDismissalReason";
-            colHistoryDismissalReason.ReadOnly = true;
-            // 
             // EmployeeForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1200, 750);
             Controls.Add(mainSplitContainer);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MinimumSize = new Size(1216, 789);
             Name = "EmployeeForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Управление сотрудниками";
             mainSplitContainer.Panel1.ResumeLayout(false);
             mainSplitContainer.Panel2.ResumeLayout(false);
+            mainSplitContainer.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)mainSplitContainer).EndInit();
             mainSplitContainer.ResumeLayout(false);
             topPanel.ResumeLayout(false);
@@ -671,19 +676,20 @@
             ((System.ComponentModel.ISupportInitialize)employeesDataGridView).EndInit();
             bottomPanel.ResumeLayout(false);
             bottomPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             employmentDetailsPanel.ResumeLayout(false);
             employmentDetailsPanel.PerformLayout();
             employmentFormTableLayout.ResumeLayout(false);
             employmentFormTableLayout.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)employmentHistoryDataGridView).EndInit();
             ResumeLayout(false);
         }
-
-        private DataGridViewTextBoxColumn colHistoryEventDate;
-        private DataGridViewTextBoxColumn colHistoryPosition;
-        private DataGridViewTextBoxColumn colHistoryWorkplace;
-        private DataGridViewTextBoxColumn colHistoryEventType;
-        private DataGridViewTextBoxColumn colHistoryDocumentType;
-        private DataGridViewTextBoxColumn colHistoryDismissalReason;
+        private ComboBox workplaceCombo;
+        private DataGridView dataGridView1;
+        private DataGridViewTextBoxColumn date;
+        private DataGridViewTextBoxColumn position;
+        private DataGridViewTextBoxColumn workplace;
+        private DataGridViewTextBoxColumn eventType;
+        private DataGridViewTextBoxColumn documentType;
+        private DataGridViewTextBoxColumn reason;
     }
 }

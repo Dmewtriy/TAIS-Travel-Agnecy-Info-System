@@ -1,0 +1,94 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
+using TAIS__Tourist_Agency_Info_System_.Data.Repositories;
+using TAIS__Tourist_Agency_Info_System_.Entities.Class;
+
+namespace GeographyModule
+{
+    public partial class PositionForm : Form
+    {
+        private readonly InitRepos db;
+        private List<Position> positions = new List<Position>();
+
+        public PositionForm(InitRepos init)
+        {
+            InitializeComponent();
+            db = init;
+            Setup();
+            LoadData();
+        }
+
+        private void Setup()
+        {
+            addButton.Click += AddButton_Click;
+            editButton.Click += EditButton_Click;
+            deleteButton.Click += DeleteButton_Click;
+
+            positionsGridView.AutoGenerateColumns = false;
+        }
+
+        private void LoadData()
+        {
+            positions = db.positionRep.GetAll();
+            UpdateGrid();
+        }
+
+        private void UpdateGrid()
+        {
+            positionsGridView.Rows.Clear();
+            int i = 1;
+            foreach (var p in positions)
+            {
+                var idx = positionsGridView.Rows.Add();
+                var row = positionsGridView.Rows[idx];
+                row.Cells["colNo"].Value = i;
+                row.Cells["colTitle"].Value = p.Title;
+                row.Cells["colDescription"].Value = p.Description ?? "";
+                row.Tag = p;
+                i++;
+            }
+        }
+
+        private void AddButton_Click(object sender, EventArgs e)
+        {
+            using var form = new PositionEditForm();
+            if (form.ShowDialog() == DialogResult.OK && form.Result != null)
+            {
+                db.positionRep.Save(form.Result);
+                LoadData();
+            }
+        }
+
+        private void EditButton_Click(object sender, EventArgs e)
+        {
+            if (positionsGridView.SelectedRows.Count == 0) return;
+            var row = positionsGridView.SelectedRows[0];
+            if (row.Tag is Position p)
+            {
+                using var form = new PositionEditForm(p);
+                if (form.ShowDialog() == DialogResult.OK && form.Result != null)
+                {
+                    db.positionRep.Save(form.Result);
+                    LoadData();
+                }
+            }
+        }
+
+        private void DeleteButton_Click(object sender, EventArgs e)
+        {
+            if (positionsGridView.SelectedRows.Count == 0) return;
+            var row = positionsGridView.SelectedRows[0];
+            if (row.Tag is Position p)
+            {
+                var res = MessageBox.Show($"Удалить должность {p.Title}?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (res == DialogResult.Yes)
+                {
+                    db.positionRep.Delete(p.Id);
+                    LoadData();
+                }
+            }
+        }
+    }
+}

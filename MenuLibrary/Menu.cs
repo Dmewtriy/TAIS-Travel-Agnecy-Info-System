@@ -38,7 +38,7 @@ namespace MenuLibrary
     public class Menu
     {
         private readonly string DatabaseFileName = "Login.db";
-        private readonly string RelativeDbPath = "CourseDB\\Data\\DataFiles";
+        private readonly string RelativeDbPath = "Data\\DataFiles";
 
         private string ConnectionString;
         private List<MenuItem> rootItems = new List<MenuItem>();

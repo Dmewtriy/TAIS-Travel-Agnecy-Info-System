@@ -195,7 +195,7 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
             command.ExecuteNonQuery();
 
             command.CommandText = @"
-                CREATE TABLE ""Employee"" (
+                CREATE TABLE IF NOT EXISTS ""Employee"" (
 	                ""Id""	INTEGER,
 	                ""StreetId""	INTEGER NOT NULL,
 	                ""FirstName""	TEXT NOT NULL,
@@ -381,7 +381,7 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
             command.ExecuteNonQuery();
 
             command.CommandText = @"
-                CREATE TABLE ""HREvent"" (
+                CREATE TABLE IF NOT EXISTS ""HREvent"" (
 	                ""Id""	INTEGER,
 	                ""EventDate""	TEXT NOT NULL,
 	                ""EventType""	TEXT NOT NULL,

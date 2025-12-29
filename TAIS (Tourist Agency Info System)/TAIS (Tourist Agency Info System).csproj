@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0-windows</TargetFramework>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>TAIS__Tourist_Agency_Info_System_</RootNamespace>
     <AssemblyName>TAIS %28Tourist Agency Info System%29</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>

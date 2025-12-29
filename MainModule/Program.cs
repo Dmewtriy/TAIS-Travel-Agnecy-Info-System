@@ -1,8 +1,12 @@
-﻿using LoginFormDll;
-using System;
-using System.Windows.Forms;
+﻿using AuthorizationLibrary;
+using LoginFormDll;
+using LoginWindow;
+using Microsoft.VisualBasic.ApplicationServices;
+using System.DirectoryServices.ActiveDirectory;
+using TAIS__Tourist_Agency_Info_System_;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
-namespace TAIS__Tourist_Agency_Info_System_
+namespace MainModule
 {
     internal static class Program
     {
@@ -16,7 +20,7 @@ namespace TAIS__Tourist_Agency_Info_System_
                     var users = loginForm.Users;
                     var username = loginForm.AuthenticatedUsername;
 
-                    /*MainForm mainForm = new MainForm(users[username]);
+                    MainForm mainForm = new MainForm(users[username]);
                     var dialog = mainForm.ShowDialog();
                     if (dialog == DialogResult.Continue)
                     {
@@ -33,12 +37,12 @@ namespace TAIS__Tourist_Agency_Info_System_
                     else if (dialog == DialogResult.Retry)
                     {
                         run(false);
-                    }*/
+                    }
                 }
             }
             else
             {
-                /*MainForm mainForm = new MainForm(user);
+                MainForm mainForm = new MainForm(user);
                 if (mainForm.ShowDialog() == DialogResult.Continue)
                 {
                     ChangePassword changePassword = new ChangePassword(user);
@@ -50,7 +54,7 @@ namespace TAIS__Tourist_Agency_Info_System_
                     {
                         run(true, user);
                     }
-                }*/
+                }
 
             }
         }

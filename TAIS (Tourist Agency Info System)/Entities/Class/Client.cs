@@ -116,5 +116,10 @@ namespace TAIS__Tourist_Agency_Info_System_.Entities.Class
 
         [Phone(ErrorMessage = "Некорректный номер телефона")]
         public string Phone { get; set; }
+
+        public string GetFullName()
+        {
+            return $"{LastName} {FirstName} {MiddleName}".Trim();
+        }
     }
 }

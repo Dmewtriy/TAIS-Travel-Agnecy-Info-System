@@ -77,5 +77,10 @@ namespace TAIS__Tourist_Agency_Info_System_.Entities.Class
             }
         }
         public virtual Client Client { get; set; }
+
+        public string GetFullName()
+        {
+            return $"{LastName} {FirstName} {MiddleName}".Trim();
+        }
     }
 }

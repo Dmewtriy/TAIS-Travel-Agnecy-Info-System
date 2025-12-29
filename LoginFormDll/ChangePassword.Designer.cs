@@ -67,7 +67,7 @@
             // keyIcon
             // 
             keyIcon.BackColor = Color.Transparent;
-            keyIcon.ImageLocation = "C:\\Домашка\\БД\\Course\\CourseDB\\LoginWindow\\keys.png";
+            keyIcon.ImageLocation = "C:\\Users\\дмитрий\\Desktop\\уник\\БД\\Курсовая\\TAIS (Tourist Agency Info System)\\LoginFormDll\\keys.png";
             keyIcon.Location = new Point(7, 7);
             keyIcon.Margin = new Padding(4, 3, 4, 3);
             keyIcon.Name = "keyIcon";

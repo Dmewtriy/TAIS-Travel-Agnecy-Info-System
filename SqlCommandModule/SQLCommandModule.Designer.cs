@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SqlCommandForm));
             txtSqlQuery = new RichTextBox();
             lstResults = new ListBox();
             btnExecute = new Button();
@@ -54,7 +53,6 @@
             lstResults.Font = new Font("Segoe UI", 9F);
             lstResults.FormattingEnabled = true;
             lstResults.HorizontalScrollbar = true;
-            lstResults.ItemHeight = 15;
             lstResults.Location = new Point(14, 202);
             lstResults.Margin = new Padding(4, 3, 4, 3);
             lstResults.Name = "lstResults";
@@ -116,10 +114,10 @@
             Controls.Add(btnExecute);
             Controls.Add(txtSqlQuery);
             Controls.Add(label1);
-            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 3, 4, 3);
             MinimumSize = new Size(464, 340);
             Name = "SqlCommandForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "SQL Запросы";
             ResumeLayout(false);
             PerformLayout();

@@ -15,6 +15,7 @@ namespace LoginFormDll
         private StatusStrip statusStrip;
         private ToolStripStatusLabel statusLeft;
         private ToolStripStatusLabel statusRight;
+        private ToolStripStatusLabel spring = new ToolStripStatusLabel() { Spring = true };
 
         private void InitializeComponent()
         {
@@ -28,7 +29,7 @@ namespace LoginFormDll
             cancelButton = new Button();
             statusStrip = new StatusStrip();
             statusLeft = new ToolStripStatusLabel();
-            toolStripSpring = new ToolStripStatusLabel() { Spring = true };
+            toolStripSpring = new ToolStripStatusLabel();
             statusRight = new ToolStripStatusLabel();
             headerName = new Panel();
             AIS = new Label();
@@ -45,13 +46,14 @@ namespace LoginFormDll
             // 
             // logoBox
             // 
+            logoBox.Image = (Image)resources.GetObject("logoBox.Image");
+            logoBox.InitialImage = (Image)resources.GetObject("logoBox.InitialImage");
             logoBox.Location = new Point(8, 8);
             logoBox.Name = "logoBox";
             logoBox.Size = new Size(64, 64);
             logoBox.SizeMode = PictureBoxSizeMode.StretchImage;
             logoBox.TabIndex = 1;
             logoBox.TabStop = false;
-            logoBox.Image = Image.FromFile("../../../../LoginFormDll/keys.png");
             // 
             // userLabel
             // 
@@ -110,7 +112,7 @@ namespace LoginFormDll
             // 
             // statusStrip
             // 
-            statusStrip.Items.AddRange(new ToolStripItem[] { statusLeft, toolStripSpring, statusRight });
+            statusStrip.Items.AddRange(new ToolStripItem[] { statusLeft, spring, statusRight });
             statusStrip.Location = new Point(0, 219);
             statusStrip.Name = "statusStrip";
             statusStrip.Size = new Size(423, 22);
@@ -145,11 +147,11 @@ namespace LoginFormDll
             // 
             AIS.AutoSize = true;
             AIS.Font = new Font("Segoe UI", 10F);
-            AIS.Location = new Point(205, 1);
+            AIS.Location = new Point(134, 0);
             AIS.Name = "AIS";
-            AIS.Size = new Size(129, 19);
+            AIS.Size = new Size(200, 19);
             AIS.TabIndex = 0;
-            AIS.Text = "АИС Отдел кадров";
+            AIS.Text = "АИС Туристическая компания";
             // 
             // headerVersion
             // 

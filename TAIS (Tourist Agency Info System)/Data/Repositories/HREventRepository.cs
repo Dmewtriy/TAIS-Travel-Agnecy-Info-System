@@ -24,7 +24,7 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
             var list = new List<HREvent>();
             using var connection = GetConnection();
             using var command = connection.CreateCommand();
-            command.CommandText = $"SELECT Id, EventDate, EventType, Profession, Department, DocumentType, Reason, WorkPlaceStreetId, PositionId, EmployeeId FROM {TableName};";
+            command.CommandText = $"SELECT Id, EventDate, EventType, Profession, Department, DocumentType, Reason, WorkPlaceStreetId, PositionId, EmployeeId, OrganizationName FROM {TableName};";
 
             using var reader = command.ExecuteReader();
             while (reader.Read())
@@ -39,6 +39,7 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
                 int workPlaceStreetId = reader.GetInt32(7);
                 int positionId = reader.GetInt32(8);
                 int employeeId = reader.GetInt32(9);
+                string organizationName = reader.IsDBNull(10) ? null : reader.GetString(10);
 
                 DateTime eventDate = DateTime.Parse(eventDateStr);
 
@@ -51,16 +52,8 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
                 }
                 else eventType = TypeEvent.Hiring;
 
-                // parse DocumentType
-                TypeEvent documentType;
-                if (!string.IsNullOrEmpty(documentTypeStr))
-                {
-                    try { documentType = TypeEventExtensions.GetEnumByString(documentTypeStr); }
-                    catch { if (!Enum.TryParse<TypeEvent>(documentTypeStr, true, out documentType)) documentType = TypeEvent.Hiring; }
-                }
-                else documentType = TypeEvent.Hiring;
 
-                var ev = new HREvent(id, eventDate, workPlaceStreetId, eventType, profession, department, documentType, reason, positionId, employeeId);
+                var ev = new HREvent(id, eventDate, workPlaceStreetId, eventType, profession, department, documentTypeStr, reason, positionId, employeeId, organizationName);
 
                 // set navigation properties
                 ev.WorkPlace = _streetRepository.GetById(workPlaceStreetId);
@@ -76,7 +69,7 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
         {
             using var connection = GetConnection();
             using var command = connection.CreateCommand();
-            command.CommandText = $"SELECT Id, EventDate, EventType, Profession, Department, DocumentType, Reason, WorkPlaceStreetId, PositionId, EmployeeId FROM {TableName} WHERE Id = @Id;";
+            command.CommandText = $"SELECT Id, EventDate, EventType, Profession, Department, DocumentType, Reason, WorkPlaceStreetId, PositionId, EmployeeId, OrganizationName FROM {TableName} WHERE Id = @Id;";
             command.Parameters.AddWithValue("@Id", id);
 
             using var reader = command.ExecuteReader();
@@ -93,6 +86,7 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
             int workPlaceStreetId = reader.GetInt32(7);
             int positionId = reader.GetInt32(8);
             int employeeId = reader.GetInt32(9);
+            string organizationName = reader.IsDBNull(10) ? null : reader.GetString(10);
 
             DateTime eventDate = DateTime.Parse(eventDateStr);
 
@@ -104,15 +98,7 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
             }
             else eventType = TypeEvent.Hiring;
 
-            TypeEvent documentType;
-            if (!string.IsNullOrEmpty(documentTypeStr))
-            {
-                try { documentType = TypeEventExtensions.GetEnumByString(documentTypeStr); }
-                catch { if (!Enum.TryParse<TypeEvent>(documentTypeStr, true, out documentType)) documentType = TypeEvent.Hiring; }
-            }
-            else documentType = TypeEvent.Hiring;
-
-            var ev = new HREvent(idDb, eventDate, workPlaceStreetId, eventType, profession, department, documentType, reason, positionId, employeeId);
+            var ev = new HREvent(idDb, eventDate, workPlaceStreetId, eventType, profession, department, documentTypeStr, reason, positionId, employeeId, organizationName);
             ev.WorkPlace = _streetRepository.GetById(workPlaceStreetId);
             ev.Position = _positionRepository.GetById(positionId);
             ev.Employee = _employeeRepository.GetById(employeeId);
@@ -137,7 +123,7 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
             }
 
             command.Parameters.AddWithValue("@EventDate", eventDateStr);
-            command.Parameters.AddWithValue("@EventType", model.EventType.ToString());
+            command.Parameters.AddWithValue("@EventType", model.EventType.GetStringByEnum());
             command.Parameters.AddWithValue("@Profession", model.Profession ?? string.Empty);
             command.Parameters.AddWithValue("@Department", model.Department ?? string.Empty);
             command.Parameters.AddWithValue("@DocumentType", model.DocumentType.ToString());

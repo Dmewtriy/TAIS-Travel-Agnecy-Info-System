@@ -34,7 +34,7 @@ namespace TAIS__Tourist_Agency_Info_System_.Data.Repositories
             hotelRep = new HotelRepository(cityRep);
             streetRep = new StreetRepository();
             positionRep = new PositionRepository();
-            employeeRep = new EmployeeRepository(streetRep);
+            employeeRep = new EmployeeRepository(streetRep, positionRep);
             hrEventRep = new HREventRepository(streetRep, positionRep, employeeRep);
             voyageRep = new VoyageRepository(carrierRep, aircraftRep);
             flightRep = new FlightRepository(voyageRep);

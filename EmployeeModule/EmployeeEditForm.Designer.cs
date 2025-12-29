@@ -21,7 +21,6 @@
         private Label addressLabel;
         private TableLayoutPanel addressTableLayout;
         private Label streetLabel;
-        private TextBox streetTextBox;
         private Panel workDataPanel;
         private Label workDataLabel;
         private TableLayoutPanel workDataTableLayout;
@@ -45,6 +44,7 @@
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EmployeeEditForm));
             mainTableLayout = new TableLayoutPanel();
             personalDataPanel = new Panel();
             personalDataLabel = new Label();
@@ -63,7 +63,7 @@
             addressLabel = new Label();
             addressTableLayout = new TableLayoutPanel();
             streetLabel = new Label();
-            streetTextBox = new TextBox();
+            streetCombo = new ComboBox();
             workDataPanel = new Panel();
             workDataLabel = new Label();
             workDataTableLayout = new TableLayoutPanel();
@@ -276,7 +276,7 @@
             addressTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             addressTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             addressTableLayout.Controls.Add(streetLabel, 0, 0);
-            addressTableLayout.Controls.Add(streetTextBox, 0, 1);
+            addressTableLayout.Controls.Add(streetCombo, 0, 1);
             addressTableLayout.Dock = DockStyle.Bottom;
             addressTableLayout.Location = new Point(10, 40);
             addressTableLayout.Name = "addressTableLayout";
@@ -296,13 +296,15 @@
             streetLabel.TabIndex = 0;
             streetLabel.Text = "Улица:";
             // 
-            // streetTextBox
+            // streetCombo
             // 
-            streetTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            streetTextBox.Location = new Point(3, 33);
-            streetTextBox.Name = "streetTextBox";
-            streetTextBox.Size = new Size(768, 23);
-            streetTextBox.TabIndex = 1;
+            streetCombo.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            streetCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            streetCombo.FormattingEnabled = true;
+            streetCombo.Location = new Point(3, 33);
+            streetCombo.Name = "streetCombo";
+            streetCombo.Size = new Size(768, 23);
+            streetCombo.TabIndex = 3;
             // 
             // workDataPanel
             // 
@@ -443,6 +445,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 600);
             Controls.Add(mainTableLayout);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MinimumSize = new Size(816, 639);
             Name = "EmployeeEditForm";
             StartPosition = FormStartPosition.CenterParent;
@@ -467,5 +470,7 @@
             buttonsFlowLayout.PerformLayout();
             ResumeLayout(false);
         }
+
+        private ComboBox streetCombo;
     }
 }

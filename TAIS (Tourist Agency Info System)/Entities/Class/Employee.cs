@@ -71,14 +71,14 @@ namespace TAIS__Tourist_Agency_Info_System_.Entities.Class
         [Required(ErrorMessage = "Пол обязателен")]
         public Gender Gender { get; set; }
 
-        [Range(1, 70, ErrorMessage = "Трудовой стаж должен быть от 1 до 70 лет")]
+        [Range(0, 70, ErrorMessage = "Трудовой стаж должен быть от 0 до 70 лет")]
         public decimal? WorkExperience
         {
             get => _experience;
             set
             {
                 if (value.HasValue && value < 0)
-                    throw new ArgumentException("Трудовой стаж должен быть от 1 до 70 лет", nameof(value));
+                    throw new ArgumentException("Трудовой стаж должен быть от 0 до 70 лет", nameof(value));
                 _experience = value;
             }
         }
